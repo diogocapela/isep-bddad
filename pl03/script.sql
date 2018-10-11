@@ -34,9 +34,6 @@ CREATE TABLE Revisoes (
 
 
 
-
-
-
 ALTER TABLE Automoveis ADD CONSTRAINT ck_automoveis_matricula CHECK(
 	REGEXP_LIKE(matricula, '^[A-Z]{2}-[0-9]{2}-[0-9]{2}$') OR
 	REGEXP_LIKE(matricula, '^[0-9]{2}-[A-Z]{2}-[0-9]{2}$') OR

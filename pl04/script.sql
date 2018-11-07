@@ -142,30 +142,117 @@ select distinct(titulo) from musicas
 
 -- 3) Copiar e alterar o comando da alínea anterior, de modo a apresentar também o comprimento de cada título e por ordem decrescente;
 
-select distinct(titulo), 
+select distinct(titulo), length(titulo) from cd
+union
+select distinct(titulo), length(titulo) from musicas
+
+
+-- 4) Mostrar a duração das músicas dos Pink Floyd que são iguais à duração de músicas de outros intérpretes;
+
+select * from musicas
+where interprete = 'Pink Floyd'
+intersect
+select * from musicas
+where interprete != 'Pink Floyd'
+
+
+-- 5) Alterar o comando da alínea anterior, de modo a mostrar a duração das músicas por ordem decrescente;
+
+select * from musicas
+where interprete = 'Pink Floyd'
+intersect
+select * from musicas
+where interprete != 'Pink Floyd'
+order by duracao desc
+
+
+-- 6) Mostrar o id das editoras que não estão relacionadas com qualquer CD;
+
+select id_editora from editoras
+minus
+select id_editora from cd
+
+
+
+-- 7) Alterar o comando da alínea anterior, de modo a mostrar o resultado por ordem decrescente.
+
+
+select id_editora from editoras
+minus
+select id_editora from cd
+order by id_editora desc
+
+
+-- 1) Mostrar apenas a quantidade de CD comprados por local de compra;
+
+
+select count(*) from cd
+group by local_compra
+
+
+-- 2) Alterar o comando da alínea anterior, de forma a não mostrar registos duplicados;
+
+
+select distinct count(*) from cd
+group by local_compra
+
+
+-- 3) Mostrar a quantidade de CD comprados por local de compra e o respetivo local de compra;
+
+
+select count(*), local_compra from cd
+where local_compra is not null
+group by local_compra
+
+
+-- 4) Copiar e alterar o comando da alínea anterior, de forma a mostrar o resultado por ordem crescente da quantidade de CD comprados;
+
+select count(*) as quantidade, local_compra from cd
+where local_compra is not null
+group by local_compra
+order by quantidade
 
 
 
 
 
+-- 12) Mostrar os locais de compra, cujo média do valor pago por CD é inferior a 10, juntamente com o respetivo total do valor pago. 
+
+select local_compra, avg(valor_pago) as media_valor_pago, sum(valor_pago) as total_valor_pago from cd
+group by local_compra
+having media_valor_pago < 10
 
 
 
 
 
+-- 13) Mostrar o valor total pago nos locais de compra, cuja quantidade de CD comprados é inferior a 2. O local de compra também deve ser visualizado;
+
+
+select count(*), local_compra from cd
+group by local_compra
+having count(*) < 2
+
+
+
+-- 14) Mostrar o interprete e o código do CD em que o interprete participa apenas em 1 música.
+-- Oresultado deve ser apresentado por ordem crescente do código do CD e, em caso de igualdade, por ordem alfabética do interprete;
+
+select interprete, cod_cd from musicas
+group by interprete, cod_cd
+having count(*) = 1
 
 
 
 
 
+-- 15) Copiar e alterar o comando da alínea anterior, de modo a mostrar apenas os intérpretes e sem duplicados;
 
 
-
-
-
-
-
-
+select distinct(interprete) from musicas
+group by interprete, cod_cd
+having count(*) = 1
+order by interprete
 
 
 

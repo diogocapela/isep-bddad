@@ -40,9 +40,14 @@ ALTER TABLE Automoveis ADD CONSTRAINT ck_automoveis_matricula CHECK(
 	REGEXP_LIKE(matricula, '^[0-9]{2}-[0-9]{2}-[A-Z]{2}$')
 );
 
+
+
 ALTER TABLE Automoveis ADD CONSTRAINT ck_automoveis_cilindrada CHECK(
-	cilindrada >= 1000 AND cilindrada <= 6000
+	cilindrada >= 100000000 AND cilindrada <= 99999999
 );
+
+
+
 
 ALTER TABLE Automoveis ADD CONSTRAINT ck_automoveis_ano_fabrico CHECK(
 	ano_fabrico >= 2000 AND ano_fabrico <= 2018

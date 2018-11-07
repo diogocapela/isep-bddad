@@ -20,6 +20,15 @@ SELECT DISTINCT(TITULO),LENGTH(TITULO) AS "Tamanho do Título" FROM MUSICAS
 ORDER BY "Tamanho do Título" DESC;
 
 
+
+
+
+
+
+
+
+
+
 --4.4) Mostrar a duração das músicas dos Pink Floyd que são iguais à duração de músicas de outros intérpretes;
 
 SELECT DURACAO FROM MUSICAS
@@ -27,6 +36,18 @@ WHERE INTERPRETE LIKE 'Pink Floyd'
 INTERSECT
 SELECT DURACAO FROM MUSICAS
 WHERE INTERPRETE NOT LIKE 'Pink Floyd';
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 --4.5) Alterar o comando da alínea anterior, de modo a mostrar a duração das músicas por ordem decrescente;

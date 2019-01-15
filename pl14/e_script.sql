@@ -127,3 +127,57 @@ begin
 end;
 
 
+-- 9. Implementar uma função, designada func_titulos_ano, para retornar os títulos dos livros editados num
+-- dado ano. A função deve receber, por parâmetro, o ano e tem de retornar um CURSOR do tipo
+-- SYS_REFCURSOR. No caso do ano recebido ser inválido, a função tem de retornar o valor NULL. Testar
+-- adequadamente a função implementada.
+
+create or replace function func_titulos_ano(
+    p_ano number
+) return sys_refcursor as
+    
+    r_cur_titulos sys_refcursor;
+
+begin
+
+    if p_ano = NULL or p_ano > extract(year from sysdate) then
+        return NULL;
+    end if;
+    
+    open r_cur_titulos for select titulo from Livros where id_livro in (
+        select id_livro from Edicoes_Livros where p_ano = ano_edicao
+    );
+
+    return r_cur_titulos;
+
+end;
+
+
+
+
+-- 10. Implementar um procedimento, designado proc_titulos, para listar os títulos de livros recebidos, por
+-- parâmetro, num CURSOR do tipo SYS_REFCURSOR. Se este parâmetro for NULL, o procedimento deve
+-- mostrar uma mensagem apropriada. Testar adequadamente o procedimento implementado, usando a
+-- função criada anteriormente (ponto 9).
+
+create or replace procedure proc_titulos(p_cur_titulos sys_refcursor) as
+    
+    c_titulo Livros.titulo%type;
+
+begin
+
+    if p_cur_titulos = NULL then
+        raise_application_error(-20001, 'Parametro inválido');
+    end if;
+    
+    open p_cur_titulos;
+    loop
+        fetch p_cur_titulos into c_titulo;
+        exit when p_cur_titulos%notfound;
+        
+        dbms_output.put_line(c_titulo);
+    
+    end loop;
+    close p_cur_titulos;
+
+end;
